@@ -1,0 +1,235 @@
+@import "tailwindcss/theme" layer(theme);
+@import "tailwindcss/utilities" layer(utilities);
+
+#mxr-react-hero-root {
+  position: relative;
+  z-index: 1;
+}
+
+.mxr-immersive-hero {
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  background: #000;
+  isolation: isolate;
+}
+
+.mxr-immersive-hero * {
+  box-sizing: border-box;
+}
+
+.mxr-immersive-hero__video {
+  filter: saturate(.76) contrast(1.08) brightness(.72);
+}
+
+.mxr-immersive-hero__grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, transparent, black 24%, black 70%, transparent);
+}
+
+/* Atmospheric video treatment for the first section after the hero. */
+.mxr-effect-section {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: #0d2338;
+}
+
+.mxr-effect-section__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.mxr-effect-section__media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(.84) contrast(1.06) brightness(.9);
+  animation: mxrAmbientDrift 18s ease-in-out infinite alternate;
+}
+
+.mxr-effect-section__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(7, 26, 44, .6) 0%, rgba(11, 58, 98, .43) 50%, rgba(20, 27, 34, .62) 100%),
+    linear-gradient(180deg, rgba(11, 102, 195, .08), rgba(4, 17, 29, .3));
+}
+
+.mxr-effect-section__grid {
+  position: absolute;
+  inset: 0;
+  opacity: .16;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .08) 1px, transparent 1px);
+  background-size: 88px 88px;
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+}
+
+.mxr-effect-section > .section-heading,
+.mxr-effect-section > .card-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.mxr-effect-section .section-heading h2 {
+  color: #fff;
+}
+
+.mxr-effect-section .section-heading > p {
+  color: rgba(255, 255, 255, .8);
+}
+
+.mxr-effect-section .section-heading .eyebrow {
+  color: #76c8ff;
+}
+
+.mxr-effect-section .solutions-grid {
+  gap: clamp(14px, 1.4vw, 24px);
+}
+
+.mxr-effect-section .image-card {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  background: rgba(8, 27, 45, .62);
+  border: 1px solid rgba(255, 255, 255, .2);
+  box-shadow: 0 24px 62px rgba(0, 0, 0, .28);
+  backdrop-filter: blur(18px) saturate(1.12);
+  transition: transform .45s cubic-bezier(.2, .8, .2, 1), border-color .35s ease, box-shadow .45s ease;
+}
+
+.mxr-effect-section .image-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 24%, rgba(255, 255, 255, .12) 47%, transparent 68%);
+  transform: translateX(-130%);
+  transition: transform .8s cubic-bezier(.2, .8, .2, 1);
+}
+
+.mxr-effect-section .image-card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(118, 200, 255, .72);
+  box-shadow: 0 32px 75px rgba(0, 0, 0, .38), 0 0 0 1px rgba(22, 132, 232, .18);
+}
+
+.mxr-effect-section .image-card:hover::after {
+  transform: translateX(130%);
+}
+
+.mxr-effect-section .card-image {
+  height: 180px;
+  overflow: hidden;
+  filter: saturate(.74) contrast(1.06);
+  transition: transform .7s cubic-bezier(.2, .8, .2, 1), filter .45s ease;
+}
+
+.mxr-effect-section .card-image::after {
+  background: linear-gradient(180deg, rgba(8, 27, 45, .03) 15%, rgba(8, 27, 45, .96) 100%);
+}
+
+.mxr-effect-section .image-card:hover .card-image {
+  transform: scale(1.045);
+  filter: saturate(.95) contrast(1.08);
+}
+
+.mxr-effect-section .card-content {
+  position: relative;
+  z-index: 1;
+  padding: 0 26px 28px;
+  margin-top: -22px;
+}
+
+.mxr-effect-section .card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mxr-effect-section .card-meta small {
+  color: rgba(255, 255, 255, .48);
+  font-size: .65rem;
+  font-weight: 800;
+  letter-spacing: .18em;
+}
+
+.mxr-effect-section .line-icon {
+  width: 45px;
+  height: 45px;
+  margin: 0;
+  border: 1px solid rgba(118, 200, 255, .62);
+  background: rgba(11, 102, 195, .68);
+  color: #fff;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  backdrop-filter: blur(10px);
+}
+
+.mxr-effect-section .card-content h3 {
+  margin: 22px 0 8px;
+  color: #fff;
+  font-size: 1.24rem;
+}
+
+.mxr-effect-section .card-content p {
+  min-height: 52px;
+  color: rgba(255, 255, 255, .7);
+}
+
+.mxr-effect-section .card-content a {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #8fd1ff;
+}
+
+.mxr-effect-section .card-content a span {
+  transition: transform .3s ease;
+}
+
+.mxr-effect-section .card-content a:hover span {
+  transform: translate(3px, -3px);
+}
+
+@keyframes mxrAmbientDrift {
+  from { transform: scale(1.01) translate3d(-.4%, 0, 0); }
+  to { transform: scale(1.065) translate3d(.7%, -.5%, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mxr-immersive-hero *,
+  .mxr-immersive-hero *::before,
+  .mxr-immersive-hero *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+
+  .mxr-effect-section__media video {
+    animation: none;
+  }
+}
+
+@media (max-width: 1080px) {
+  .mxr-effect-section .solutions-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .mxr-effect-section .solutions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mxr-effect-section .card-content p {
+    min-height: auto;
+  }
+}
