@@ -6,15 +6,22 @@ import { resolve } from 'node:path'
 const pages = [
   'index.html',
   'about.html',
+  'simulator-development.html',
+  'xr-development.html',
+  'immersive-rooms.html',
+  'ai-solutions.html',
+  'platform-development.html',
   'modal3d.html',
   'eprium.html',
   'drivexr.html',
   'insightxr.html',
+  'insightxr-platform.html',
   'defence-security.html',
   'case-study-xr-readiness.html',
 ]
 
 export default defineConfig({
+  server: { allowedHosts: ['terminal.local'] },
   plugins: [react(), tailwindcss()],
   publicDir: 'public',
   build: {

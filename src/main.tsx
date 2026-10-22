@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { createRoot } from 'react-dom/client'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowRight, Menu, X } from 'lucide-react'
+import { ArrowRight, Menu, X, BrainCircuit, Glasses, Gauge, Scan, PanelsTopLeft } from 'lucide-react'
 import homeSource from '../dist/index.html?raw'
 import aboutSource from '../dist/about.html?raw'
 import modalSource from '../dist/modal3d.html?raw'
@@ -12,6 +12,14 @@ import insightSource from '../dist/insightxr.html?raw'
 import defenceSource from '../dist/defence-security.html?raw'
 import caseStudySource from '../dist/case-study-xr-readiness.html?raw'
 import './hero.css'
+import './drivexr.css'
+import './eprium-problem.css'
+import { epriumPage } from './eprium-page'
+import './eprium-page.css'
+import { services, serviceMarkup } from './services'
+import { insightPlatformMarkup } from './insightxr-sales'
+import { productPages, productMarkup, productFeatureMarkup } from './product-pages'
+import { drivePage } from './drivexr-story'
 
 const pageSources: Record<string, string> = {
   'index.html': homeSource,
@@ -40,8 +48,30 @@ function extractPage(source: string, isHome: boolean): Page {
     .match(/<meta\s+name="description"\s+content="([^"]*)"/i)?.[1]
 
   body = body.replace(/<script[^>]*src="assets\/site\.js"[^>]*><\/script>/gi, '')
+  body = body.replace(/(<a href="insightxr.html">InsightXR<\/a>)/g, '$1<a href="/insightxr-platform.html">InsightXR — Platform version</a>')
+  const serviceLinks = services.map(s => `<a href="/${s.slug}.html">${s.title}</a>`).join('')
+  body = body.replace(/<a href="(?:index\.html)?#services">Services<\/a>/g, `<div class="nav-item"><button class="nav-trigger">Services</button><div class="dropdown">${serviceLinks}</div></div>`)
+  services.forEach(service => {
+    const label = service.title === 'Simulator Development' ? 'Explore Simulator Development →' : 'Explore service →'
+    if (service.title === 'Simulator Development') body = body.replace(`<a href="#contact">${label}</a>`, `<a href="/${service.slug}.html">${label}</a>`)
+    else {
+      const marker = `<h3>${service.title}</h3>`
+      const start = body.indexOf(marker)
+      if (start >= 0) {
+        const end = body.indexOf('</article>', start)
+        body = body.slice(0, start) + body.slice(start, end).replace('href="#contact"', `href="/${service.slug}.html"`) + body.slice(end)
+      }
+    }
+  })
 
   if (isHome) {
+    const wave = '<div class="home-wave-media" aria-hidden="true"><video autoplay muted loop playsinline preload="metadata"><source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260815_034306_165449ef-7d2e-4e81-850f-1939c5cb442d.mp4" type="video/mp4"></video></div>'
+    body = body.replace('section intro mxr-effect-section', 'section intro')
+      .replace(/<div class="mxr-effect-section__media"[\s\S]*?<div class="mxr-effect-section__grid"><\/div><\/div>/, '')
+      .replace(/<div class="card-meta"><span class="line-icon">(DS|HS|ET|CS)<\/span><small>\d+<\/small><\/div>/g, '<span class="line-icon">◇</span>')
+      .replace('<section class="section process" id="process">', '<section class="section process home-wave-section" id="process">' + wave)
+      .replace('<section class="featured-products" id="products" aria-label="Featured products">', '<section class="featured-products home-wave-section" id="products" aria-label="Featured products">' + wave)
+      .replace('<section class="final-cta" id="contact">', '<section class="final-cta home-wave-section home-wave-cta" id="contact">' + wave)
     body = body
       .replace(/<header class="site-header"[\s\S]*?<\/header>/i, '')
       .replace(
@@ -123,6 +153,8 @@ function ImmersiveHero() {
 
           <div className="hidden items-center rounded-full border border-gray-700/80 bg-black/20 p-1.5 backdrop-blur-md lg:flex">
             {navLinks.map((link) => (
+              link.label === 'Products' ? <div className="mxr-service-nav" key={link.label}><button type="button" className="rounded-full px-4 py-2 text-sm font-medium text-white/80 hover:bg-white/10 hover:text-white">Products</button><div className="mxr-service-dropdown">{[['MODAL3D','modal3d'],['EPRium','eprium'],['DriveXR','drivexr'],['InsightXR — Existing','insightxr'],['InsightXR — Platform version','insightxr-platform']].map(([label, slug]) => <a href={`/${slug}.html`} key={slug}>{label}</a>)}</div></div> :
+              link.label === 'Services' ? <div className="mxr-service-nav" key={link.label}><button type="button" className="rounded-full px-4 py-2 text-sm font-medium text-white/80 hover:bg-white/10 hover:text-white">Services</button><div className="mxr-service-dropdown">{services.map(s => <a href={`/${s.slug}.html`} key={s.slug}>{s.title}</a>)}</div></div> :
               <a
                 key={link.label}
                 href={link.href}
@@ -164,6 +196,8 @@ function ImmersiveHero() {
               transition={{ duration: 0.22 }}
             >
               {navLinks.map((link) => (
+                link.label === 'Products' ? <details className="mxr-mobile-services" key={link.label}><summary>Products</summary>{[['MODAL3D','modal3d'],['EPRium','eprium'],['DriveXR','drivexr'],['InsightXR — Existing','insightxr'],['InsightXR — Platform version','insightxr-platform']].map(([label, slug]) => <a href={`/${slug}.html`} key={slug}>{label}</a>)}</details> :
+                link.label === 'Services' ? <details className="mxr-mobile-services" key={link.label}><summary>Services</summary>{services.map(s => <a href={`/${s.slug}.html`} key={s.slug}>{s.title}</a>)}</details> :
                 <a
                   key={link.label}
                   href={link.href}
@@ -232,20 +266,50 @@ function ImmersiveHero() {
   )
 }
 
+function TechnologyBloom() {
+  useEffect(() => { void import('@google/model-viewer') }, [])
+  return <div className="technology-bloom about-video-stage" aria-label="Rotating Meta Quest 3 VR headset">
+    <div className="quest-model-stage is-active" dangerouslySetInnerHTML={{ __html: '<model-viewer src="/assets/quest-3.glb" poster="/assets/quest-3-poster.png" alt="Meta Quest 3 headset and controllers" auto-rotate rotation-per-second="20deg" auto-rotate-delay="0" camera-orbit="25deg 75deg auto" field-of-view="30deg" shadow-intensity="0.6" exposure="1" environment-image="neutral" interaction-prompt="none" loading="eager"></model-viewer>' }} />
+    <div className="about-video-blend" />
+    <div className="about-video-label"><Glasses aria-hidden="true" /><div><small>EXPLORE OUR CAPABILITIES</small><strong>XR Development</strong></div></div>
+  </div>
+}
+
 function App() {
   const routeName = decodeURIComponent(
     window.location.pathname.split('/').filter(Boolean).pop() || 'index',
   )
   const filename = routeName.endsWith('.html') ? routeName : `${routeName}.html`
   const isHome = filename === 'index.html'
+  const service = services.find(s => `${s.slug}.html` === filename)
   const page = useMemo(
-    () => extractPage(pageSources[filename] ?? pageSources['index.html'], isHome),
+    () => {
+      if (productPages[filename]) {
+        const base = extractPage(aboutSource, false)
+        const product = productPages[filename]
+        let content = productMarkup(filename).replace('<section class="pp-audience">', productFeatureMarkup(filename) + '<section class="pp-audience">')
+        if (filename === 'eprium.html') content = epriumPage
+        if (filename === 'drivexr.html') content = drivePage
+        return { ...base, body: base.body.replace(/<main[\s\S]*?<\/main>/i, content).replace('class="current"', ''), title: `${product.name} | MXR.ai`, description: product.intro }
+      }
+      if (filename === 'insightxr-platform.html') {
+        const base = extractPage(aboutSource, false)
+        return { ...base, body: base.body.replace(/<main[\s\S]*?<\/main>/i, insightPlatformMarkup).replace('class="current"', ''), title: 'InsightXR Platform | MXR.ai', description: 'AR and VR device management, content delivery and immersive training insight with InsightXR.' }
+      }
+      if (service) {
+        const base = extractPage(aboutSource, false)
+        return { ...base, body: base.body.replace(/<main[\s\S]*?<\/main>/i, serviceMarkup(service.slug)).replace('class="current"', ''), title: `${service.title} | MXR.ai`, description: service.description }
+      }
+      return extractPage(pageSources[filename] ?? pageSources['index.html'], isHome)
+    },
     [filename, isHome],
   )
   const [heroTarget, setHeroTarget] = useState<HTMLElement | null>(null)
+  const [aboutTarget, setAboutTarget] = useState<HTMLElement | null>(null)
 
   useLayoutEffect(() => {
     setHeroTarget(isHome ? document.querySelector('#mxr-react-hero-root') : null)
+    setAboutTarget(filename === 'about.html' ? document.querySelector('.about-hero') : null)
   }, [isHome, page.body])
 
   useEffect(() => {
@@ -269,6 +333,7 @@ function App() {
         dangerouslySetInnerHTML={{ __html: page.body }}
       />
       {heroTarget && createPortal(<ImmersiveHero />, heroTarget)}
+      {aboutTarget && createPortal(<TechnologyBloom />, aboutTarget)}
     </>
   )
 }
