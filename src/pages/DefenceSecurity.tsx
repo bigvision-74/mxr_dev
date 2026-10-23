@@ -18,7 +18,7 @@ export function DefenceSecurity() {
             <p>Mission-ready training solutions for military, emergency services and security organisations. Built around the tasks that matter — before they're needed in the field.</p>
             <div className="button-row">
               <a href="mailto:hello@mxr.ai?subject=Defence%20enquiry" className="btn btn-primary">Discuss your requirement →</a>
-              <a href="/modal3d" className="btn btn-ghost">Explore Modal3D</a>
+              <a href="/modal3d.html" className="btn btn-ghost">Explore Modal3D</a>
             </div>
           </div>
           <div className="detail-hero-image">
@@ -86,15 +86,15 @@ export function DefenceSecurity() {
             <p>Our defence-focused products bring together simulation, 3D knowledge management and immersive training in purpose-built platforms.</p>
             <ol>
               <li>
-                <b><a href="/modal3d">Modal3D →</a></b>
+                <b><a href="/modal3d.html">Modal3D →</a></b>
                 <span>Interactive 3D ordnance and equipment library with mobile AR and technical reference.</span>
               </li>
               <li>
-                <b><a href="/drivexr">DriveXR →</a></b>
+                <b><a href="/drivexr.html">DriveXR →</a></b>
                 <span>Emergency vehicle simulation for blue-light driver training and response rehearsal.</span>
               </li>
               <li>
-                <b><a href="/insightxr">InsightXR →</a></b>
+                <b><a href="/insightxr.html">InsightXR →</a></b>
                 <span>XR learning management, content delivery and training analytics across devices.</span>
               </li>
             </ol>
@@ -107,7 +107,7 @@ export function DefenceSecurity() {
             <h2>Modal<span>3D</span></h2>
             <p>The defence knowledge platform that connects interactive 3D, mobile AR and technical specifications in one organised library. Built for teams who need to understand complex assets before they encounter them in the field.</p>
             <div className="button-row">
-              <a href="/modal3d" className="btn btn-primary">Explore Modal3D →</a>
+              <a href="/modal3d.html" className="btn btn-primary">Explore Modal3D →</a>
               <a href="mailto:hello@mxr.ai?subject=Modal3D%20demo" className="btn btn-ghost">Book a demo</a>
             </div>
           </div>

@@ -1,15 +1,8 @@
-import { useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
 import { Layout } from '../components/Layout'
 import { TechnologyBloom } from '../components/TechnologyBloom'
 import aboutHero from '../assets/about/about-hero.webp'
 
 export function About() {
-  const [bloomTarget, setBloomTarget] = useState<HTMLElement | null>(null)
-
-  useEffect(() => {
-    setBloomTarget(document.querySelector<HTMLElement>('.about-hero'))
-  }, [])
 
   return (
     <Layout>
@@ -34,7 +27,7 @@ export function About() {
           </div>
         </section>
 
-        <div className="about-hero"></div>
+        <div className="about-hero"><TechnologyBloom /></div>
 
         <section className="section detail-intro">
           <div className="detail-kicker">
@@ -122,7 +115,7 @@ export function About() {
         </section>
       </main>
 
-      {bloomTarget && createPortal(<TechnologyBloom />, bloomTarget)}
+
     </Layout>
   )
 }
