@@ -1,34 +1,62 @@
-import { useEffect, useState } from 'react'
-const themes = [
-  ['navy', 'Deep Navy', 'Original enterprise', 'navy'],
-  ['charcoal', 'Dark Grey', 'Neutral corporate', 'grey'],
-  ['bae-red', 'BAE Red', 'Defence corporate', 'red'],
-  ['teal', 'Clinical Teal', 'Healthcare & XR', 'teal'],
-  ['indigo', 'Digital Indigo', 'Technology & AI', 'indigo'],
-  ['evergreen', 'Evergreen', 'Training & growth', 'evergreen'],
-] as const
-const fonts = [['segoe','Segoe UI'],['inter','Inter'],['lato','Lato'],['roboto','Roboto'],['open-sans','Open Sans'],['rubik','Rubik'],['poppins','Poppins'],['arial','Arial'],['trebuchet','Trebuchet MS']] as const
-function saved(key: string, fallback: string) { try { return localStorage.getItem(key) || fallback } catch { return fallback } }
 export function StyleSwitcher() {
-  const [open, setOpen] = useState(false)
-  const [theme, setTheme] = useState(() => saved('mxr-theme', 'charcoal'))
-  const [font, setFont] = useState(() => saved('mxr-font', 'segoe'))
-  useEffect(() => {
-    const validTheme = themes.some(t => t[0] === theme) ? theme : 'charcoal'
-    const validFont = fonts.some(f => f[0] === font) ? font : 'segoe'
-    const themeClasses = themes.map(t => `theme-${t[0]}`), fontClasses = fonts.map(f => `font-${f[0]}`)
-    document.body.classList.remove(...themeClasses, ...fontClasses)
-    if (validTheme !== 'charcoal') document.body.classList.add(`theme-${validTheme}`)
-    if (validFont !== 'segoe') document.body.classList.add(`font-${validFont}`)
-    try { localStorage.setItem('mxr-theme', validTheme); localStorage.setItem('mxr-font', validFont) } catch { /* Device storage is optional. */ }
-  }, [theme, font])
-  return <aside className="style-switcher" aria-label="Design comparison controls" onKeyDown={e => { if (e.key === 'Escape') setOpen(false) }}>
-    <button className="style-switcher-toggle" aria-expanded={open} aria-controls="style-panel" onClick={() => setOpen(v => !v)}><span>◐</span> Compare styles</button>
-    <div className="style-panel" id="style-panel" hidden={!open}>
-      <div className="style-panel-head"><div><small>DESIGN LAB</small><strong>Compare the look</strong></div><button className="style-close" aria-label="Close comparison panel" onClick={() => setOpen(false)}>×</button></div>
-      <fieldset><legend>Colour variation</legend><div className="theme-options">{themes.map(([value, label, description, swatch]) => <button key={value} className={`theme-option${theme === value ? ' active' : ''}`} data-theme={value} aria-pressed={theme === value} onClick={() => setTheme(value)}><i className={`swatch ${swatch}-swatch`} /><span><b>{label}</b><small>{description}</small></span></button>)}</div></fieldset>
-      <label className="font-label" htmlFor="font-variation">Typography</label><select id="font-variation" value={font} onChange={e => setFont(e.target.value)}>{fonts.map(([value,label]) => <option key={value} value={value}>{label}</option>)}</select>
-      <p className="style-note">Changes apply instantly and are remembered on this device.</p>
+  return (
+    <div className="style-switcher">
+      <button className="style-switcher-toggle" aria-expanded="false">
+        <span>✦</span> Style
+      </button>
+      <div className="style-panel" hidden>
+        <div className="style-panel-head">
+          <div>
+            <small>VISUAL STYLE</small>
+            <strong>Customise</strong>
+          </div>
+          <button className="style-close" aria-label="Close style panel">×</button>
+        </div>
+        <fieldset>
+          <legend>Theme</legend>
+          <div className="theme-options">
+            <button className="theme-option" data-theme="charcoal">
+              <span className="swatch grey-swatch"></span>
+              <span><b>Charcoal</b><small>Default</small></span>
+            </button>
+            <button className="theme-option" data-theme="navy">
+              <span className="swatch navy-swatch"></span>
+              <span><b>Navy</b><small>Classic</small></span>
+            </button>
+            <button className="theme-option" data-theme="teal">
+              <span className="swatch teal-swatch"></span>
+              <span><b>Teal</b><small>Fresh</small></span>
+            </button>
+            <button className="theme-option" data-theme="indigo">
+              <span className="swatch indigo-swatch"></span>
+              <span><b>Indigo</b><small>Bold</small></span>
+            </button>
+            <button className="theme-option" data-theme="evergreen">
+              <span className="swatch evergreen-swatch"></span>
+              <span><b>Evergreen</b><small>Natural</small></span>
+            </button>
+            <button className="theme-option" data-theme="bae-red">
+              <span className="swatch red-swatch"></span>
+              <span><b>Red</b><small>Impact</small></span>
+            </button>
+          </div>
+        </fieldset>
+        <fieldset>
+          <label className="font-label" htmlFor="font-variation">Font</label>
+          <select id="font-variation">
+            <option value="segoe">Segoe UI (default)</option>
+            <option value="inter">Inter</option>
+            <option value="lato">Lato</option>
+            <option value="roboto">Roboto</option>
+            <option value="open-sans">Open Sans</option>
+            <option value="rubik">Rubik</option>
+            <option value="poppins">Poppins</option>
+            <option value="arial">Arial</option>
+            <option value="trebuchet">Trebuchet MS</option>
+          </select>
+        </fieldset>
+        <p className="style-note">Style preferences are saved to your browser.</p>
+      </div>
     </div>
-  </aside>
+  )
 }

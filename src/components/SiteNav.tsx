@@ -6,10 +6,10 @@ import mxrLogo from '../assets/images/mxr-logo.png'
 
 const navLinks = [
   { label: 'Home', href: '/' },
-  { label: 'About Us', href: '/about.html' },
+  { label: 'About Us', href: '/about' },
   { label: 'Services', href: '/#services' },
   { label: 'Products', href: '/#products' },
-  { label: 'Resources', href: '/case-study-xr-readiness.html' },
+  { label: 'Resources', href: '/case-study-xr-readiness' },
 ]
 
 const products: [string, string][] = [
@@ -25,7 +25,6 @@ export function SiteNav() {
 
   return (
     <header
-      className="mxr-site-nav"
       style={{
         position: 'absolute',
         top: 0,

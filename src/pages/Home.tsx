@@ -1,15 +1,22 @@
+import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Layout } from '../components/Layout'
 import { ImmersiveHero } from '../components/ImmersiveHero'
 import { services } from '../data/services'
-import { WaveBackground } from '../components/WaveBackground'
-import { useState } from 'react'
 
 export function Home() {
-  const [industry, setIndustry] = useState('defence')
+  const [heroTarget, setHeroTarget] = useState<HTMLElement | null>(null)
+
+  useEffect(() => {
+    setHeroTarget(document.querySelector<HTMLElement>('#mxr-react-hero-root'))
+  }, [])
+
+  const serviceLinks = services.map(s => `<a href="/${s.slug}">${s.title}</a>`).join('')
+  const wave = '<div class="home-wave-media" aria-hidden="true"><video autoplay muted loop playsinline preload="metadata"><source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260815_034306_165449ef-7d2e-4e81-850f-1939c5cb442d.mp4" type="video/mp4"></video></div>'
 
   return (
-    <Layout noHeader>
-      <ImmersiveHero />
+    <Layout>
+      <div id="mxr-react-hero-root" />
 
       <section className="section intro" id="solutions">
         <div className="section-heading">
@@ -17,34 +24,34 @@ export function Home() {
           <p>From bespoke simulators to enterprise learning platforms, we build solutions that equip people for the challenges that matter most.</p>
         </div>
         <div className="card-grid">
-          <article className="image-card reveal visible">
+          <article className="image-card reveal">
             <div className="card-image defence"></div>
             <div className="card-content">
               <div className="card-meta"><span className="line-icon">◇</span></div>
               <h3>Defence &amp; Security</h3>
               <p>Simulation and XR training solutions for military, emergency services and security teams.</p>
-              <a href="/defence-security.html">Explore →</a>
+              <a href="/defence-security">Explore →</a>
             </div>
           </article>
-          <article className="image-card reveal visible">
+          <article className="image-card reveal">
             <div className="card-image healthcare"></div>
             <div className="card-content">
               <div className="card-meta"><span className="line-icon">◇</span></div>
               <h3>Healthcare Simulation</h3>
               <p>Clinical simulation platforms that prepare healthcare professionals for patient care.</p>
-              <a href="/eprium.html">Explore →</a>
+              <a href="/eprium">Explore →</a>
             </div>
           </article>
-          <article className="image-card reveal visible">
+          <article className="image-card reveal">
             <div className="card-image enterprise"></div>
             <div className="card-content">
               <div className="card-meta"><span className="line-icon">◇</span></div>
               <h3>Enterprise Training</h3>
               <p>Immersive learning experiences and AI tools that develop skills at scale.</p>
-              <a href="/insightxr.html">Explore →</a>
+              <a href="/insightxr">Explore →</a>
             </div>
           </article>
-          <article className="image-card reveal visible">
+          <article className="image-card reveal">
             <div className="card-image custom"></div>
             <div className="card-content">
               <div className="card-meta"><span className="line-icon">◇</span></div>
@@ -76,41 +83,41 @@ export function Home() {
           <p>From simulation and XR to AI and platform development, we build the technology your teams need to learn, rehearse and perform.</p>
         </div>
         <div className="service-grid">
-          <article className="service-card reveal visible">
+          <article className="service-card reveal">
             <div className="service-top"><div className="service-icon">SIM</div><small>01</small></div>
             <h3>Simulator Development</h3>
             <p>Purpose-built simulators that let teams practise complex tasks in a safe, repeatable environment.</p>
-            <a href="/simulator-development.html">Explore service →</a>
+            <a href="/simulator-development">Explore service →</a>
           </article>
-          <article className="service-card reveal visible">
+          <article className="service-card reveal">
             <div className="service-top"><div className="service-icon">XR</div><small>02</small></div>
             <h3>XR Development</h3>
             <p>Virtual, augmented and mixed reality experiences that help people understand, rehearse and interact with the world in new ways.</p>
-            <a href="/xr-development.html">Explore service →</a>
+            <a href="/xr-development">Explore service →</a>
           </article>
-          <article className="service-card reveal visible">
+          <article className="service-card reveal">
             <div className="service-top"><div className="service-icon">IMR</div><small>03</small></div>
             <h3>Immersive Rooms</h3>
             <p>Projection-led environments that bring teams together for immersive learning and facilitated simulation.</p>
-            <a href="/immersive-rooms.html">Explore service →</a>
+            <a href="/immersive-rooms">Explore service →</a>
           </article>
-          <article className="service-card reveal visible">
+          <article className="service-card reveal">
             <div className="service-top"><div className="service-icon">AI</div><small>04</small></div>
             <h3>AI Solutions</h3>
             <p>Practical AI that supports learning, simplifies information workflows and helps teams focus on higher-value tasks.</p>
-            <a href="/ai-solutions.html">Explore service →</a>
+            <a href="/ai-solutions">Explore service →</a>
           </article>
         </div>
       </section>
 
       <section className="featured-products home-wave-section" id="products" aria-label="Featured products">
-        <WaveBackground />
+        <div dangerouslySetInnerHTML={{ __html: wave }} />
         <div className="section-heading section">
           <h2>Products that power immersive learning.</h2>
           <p>Purpose-built platforms and tools developed by MXR for defence, healthcare and enterprise training.</p>
         </div>
         <div className="product-grid section">
-          <article className="product-card featured-card reveal visible" data-product-slide="0">
+          <article className="product-card featured-card reveal" data-product-slide="0">
             <div>
               <p className="product-number">01</p>
               <p className="tag">DEFENCE KNOWLEDGE PLATFORM</p>
@@ -124,9 +131,9 @@ export function Home() {
                 <li>Web and mobile access</li>
               </ul>
             </div>
-            <a href="/modal3d.html">Explore Modal3D →</a>
+            <a href="/modal3d">Explore Modal3D →</a>
           </article>
-          <article className="product-card reveal visible" data-product-slide="1">
+          <article className="product-card reveal" data-product-slide="1">
             <div>
               <p className="product-number">02</p>
               <p className="tag">CLINICAL SIMULATION PLATFORM</p>
@@ -138,9 +145,9 @@ export function Home() {
                 <li>Clinical reasoning practice</li>
               </ul>
             </div>
-            <a href="/eprium.html">Explore EPRium →</a>
+            <a href="/eprium">Explore EPRium →</a>
           </article>
-          <article className="product-card reveal visible" data-product-slide="2">
+          <article className="product-card reveal" data-product-slide="2">
             <div>
               <p className="product-number">03</p>
               <p className="tag">EMERGENCY DRIVER SIMULATION</p>
@@ -152,9 +159,9 @@ export function Home() {
                 <li>Performance analytics</li>
               </ul>
             </div>
-            <a href="/drivexr.html">Explore DriveXR →</a>
+            <a href="/drivexr">Explore DriveXR →</a>
           </article>
-          <article className="product-card reveal visible" data-product-slide="3">
+          <article className="product-card reveal" data-product-slide="3">
             <div>
               <p className="product-number">04</p>
               <p className="tag">XR LEARNING MANAGEMENT</p>
@@ -166,13 +173,13 @@ export function Home() {
                 <li>Training insight and analytics</li>
               </ul>
             </div>
-            <a href="/insightxr.html">Explore InsightXR →</a>
+            <a href="/insightxr">Explore InsightXR →</a>
           </article>
         </div>
       </section>
 
       <section className="section process home-wave-section" id="process">
-        <WaveBackground />
+        <div dangerouslySetInnerHTML={{ __html: wave }} />
         <div className="process-heading">
           <h2>A clear route from idea to delivery.</h2>
           <p>We work in stages — each one building on the last — so you always know where you are and what comes next.</p>
@@ -186,7 +193,7 @@ export function Home() {
             ['05', 'Deploy', 'Support launch, onboarding and integration into your learning environment.'],
             ['06', 'Evolve', 'Continuously improve based on real usage data and changing requirements.'],
           ].map(([num, title, text]) => (
-            <div key={num} className="process-step reveal visible">
+            <div key={num} className="process-step reveal">
               <div className="process-node"><span>{num}</span></div>
               <h3>{title}</h3>
               <p>{text}</p>
@@ -201,33 +208,33 @@ export function Home() {
           <p>Our expertise spans the industries where performance, safety and skill have real-world consequences.</p>
         </div>
         <div className="industry-strip">
-          <button className={industry === "defence" ? "industry active" : "industry"} onClick={() => setIndustry("defence")} data-industry="defence"><span>Defence &amp; Security</span><b>Mission-ready simulation</b></button>
-          <button className={industry === "healthcare" ? "industry active" : "industry"} onClick={() => setIndustry("healthcare")} data-industry="healthcare"><span>Healthcare</span><b>Clinical skill development</b></button>
-          <button className={industry === "emergency" ? "industry active" : "industry"} onClick={() => setIndustry("emergency")} data-industry="emergency"><span>Emergency Services</span><b>Response training at scale</b></button>
-          <button className={industry === "enterprise" ? "industry active" : "industry"} onClick={() => setIndustry("enterprise")} data-industry="enterprise"><span>Enterprise</span><b>Scalable immersive learning</b></button>
-          <button className={industry === "education" ? "industry active" : "industry"} onClick={() => setIndustry("education")} data-industry="education"><span>Education</span><b>Next-generation learning</b></button>
+          <button className="industry active" data-industry="defence"><span>Defence &amp; Security</span><b>Mission-ready simulation</b></button>
+          <button className="industry" data-industry="healthcare"><span>Healthcare</span><b>Clinical skill development</b></button>
+          <button className="industry" data-industry="emergency"><span>Emergency Services</span><b>Response training at scale</b></button>
+          <button className="industry" data-industry="enterprise"><span>Enterprise</span><b>Scalable immersive learning</b></button>
+          <button className="industry" data-industry="education"><span>Education</span><b>Next-generation learning</b></button>
         </div>
       </section>
 
       <section className="section insights">
         <div className="section-heading">
           <h2>Resources &amp; insights</h2>
-          <a href="/case-study-xr-readiness.html" className="text-link">View all resources →</a>
+          <a href="/case-study-xr-readiness" className="text-link">View all resources →</a>
         </div>
         <div className="insight-grid">
-          <article className="reveal visible">
+          <article className="reveal">
             <div className="insight-art art1"><span>CASE STUDY</span></div>
             <time>2025</time>
             <h3>XR Readiness: Making the case for immersive technology</h3>
-            <a href="/case-study-xr-readiness.html" className="text-link">Read case study →</a>
+            <a href="/case-study-xr-readiness" className="text-link">Read case study →</a>
           </article>
-          <article className="reveal visible">
+          <article className="reveal">
             <div className="insight-art art2"><span>GUIDE</span></div>
             <time>2025</time>
             <h3>From simulation to competence: how to measure immersive learning</h3>
             <a href="#contact" className="text-link">Get in touch →</a>
           </article>
-          <article className="reveal visible">
+          <article className="reveal">
             <div className="insight-art art3"><span>INSIGHT</span></div>
             <time>2025</time>
             <h3>AI in training: practical applications for defence and healthcare</h3>
@@ -237,7 +244,7 @@ export function Home() {
       </section>
 
       <section className="final-cta home-wave-section home-wave-cta" id="contact">
-        <WaveBackground />
+        <div dangerouslySetInnerHTML={{ __html: wave }} />
         <div>
           <p className="eyebrow">LET'S BUILD WHAT'S NEXT</p>
           <h2>Have a project in mind?</h2>
@@ -245,11 +252,11 @@ export function Home() {
         </div>
         <div className="button-row">
           <a href="mailto:hello@mxr.ai" className="btn btn-primary">Talk to our team →</a>
-          <a href="/about.html" className="btn btn-secondary">Learn about MXR</a>
+          <a href="/about" className="btn btn-secondary">Learn about MXR</a>
         </div>
       </section>
 
-
+      {heroTarget && createPortal(<ImmersiveHero />, heroTarget)}
     </Layout>
   )
 }

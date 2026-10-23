@@ -1,15 +1,66 @@
-import { useEffect } from 'react'
-import { Layout } from './Layout'
-import { pages } from '../page-manifest'
+import { useState, useEffect } from 'react'
+import { Home } from '../pages/Home'
+import { About } from '../pages/About'
+import { DefenceSecurity } from '../pages/DefenceSecurity'
+import { CaseStudy } from '../pages/CaseStudy'
+import { ProductPage } from '../pages/ProductPage'
+import { ServicePage } from '../pages/ServicePage'
+import { InsightXRPlatform } from '../pages/InsightXRPlatform'
+import { services } from '../data/services'
+import { productPages } from '../data/product-pages'
+import '../styles/hero.css'
+import '../styles/drivexr.css'
+import '../styles/eprium-problem.css'
+import '../styles/eprium-page.css'
+
+const productSlugs = Object.keys(productPages).map(k => k.replace('.html', ''))
+const serviceSlugs = services.map(s => s.slug)
+
 export function App() {
-  const route = decodeURIComponent(window.location.pathname.split('/').filter(Boolean).pop() || 'index')
-  const filename = route.endsWith('.html') ? route : `${route}.html`
-  const page = pages[filename as keyof typeof pages]
+  const [path, setPath] = useState(window.location.pathname)
+
   useEffect(() => {
-    document.title = page?.title || 'Page not found | MXR.ai'
-    document.querySelector('meta[name="description"]')?.setAttribute('content', page?.description || '')
-  }, [page])
-  if (!page) return <Layout><main className="section"><h1>Page not found</h1><a href="/index.html">Return home</a></main></Layout>
-  const { Component } = page
-  return page.needsLayout ? <Layout><Component /></Layout> : <Component />
+    const onPop = () => setPath(window.location.pathname)
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      const anchor = (e.target as Element).closest('a')
+      if (!anchor) return
+      const href = anchor.getAttribute('href')
+      if (!href || href.startsWith('http') || href.startsWith('mailto:') || href.includes('#') || e.metaKey || e.ctrlKey || e.shiftKey) return
+      e.preventDefault()
+      const clean = href.replace(/\.html$/, '')
+      if (clean === window.location.pathname) return
+      history.pushState(null, '', clean)
+      setPath(clean)
+      window.scrollTo(0, 0)
+    }
+    document.addEventListener('click', handleClick)
+    return () => document.removeEventListener('click', handleClick)
+  }, [])
+
+  useEffect(() => {
+    const legacy = document.createElement('script')
+    legacy.src = '/site.js'
+    legacy.dataset.mxrInteractions = 'true'
+    document.body.appendChild(legacy)
+    return () => legacy.remove()
+  }, [path])
+
+  const route = decodeURIComponent(
+    path.split('/').filter(Boolean).pop() || 'index',
+  ).replace(/\.html$/, '')
+
+  if (route === 'index' || route === '') return <Home />
+  if (route === 'about') return <About />
+  if (route === 'defence-security') return <DefenceSecurity />
+  if (route === 'case-study-xr-readiness') return <CaseStudy />
+  if (route === 'insightxr-platform') return <InsightXRPlatform />
+  if (productSlugs.includes(route)) return <ProductPage slug={route} />
+  if (serviceSlugs.includes(route)) return <ServicePage slug={route} />
+
+  return <Home />
 }

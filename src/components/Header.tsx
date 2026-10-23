@@ -14,14 +14,14 @@ export function Header({ currentPage }: Props) {
         <div className="nav-item">
           <button>Products <span>↓</span></button>
           <div className="dropdown">
-            <a href="/modal3d.html">Modal3D</a>
-            <a href="/drivexr.html">DriveXR</a>
-            <a href="/eprium.html">Eprium</a>
-            <a href="/insightxr.html">XR Training</a>
+            <a href="/modal3d">Modal3D</a>
+            <a href="/drivexr">DriveXR</a>
+            <a href="/eprium">Eprium</a>
+            <a href="/insightxr">XR Training</a>
           </div>
         </div>
-        <a href="/about.html" className={currentPage === 'about' ? 'current' : undefined}>About</a>
-        <a href="/case-study-xr-readiness.html" className={currentPage === 'resources' ? 'current' : undefined}>Resources</a>
+        <a href="/about" className={currentPage === 'about' ? 'current' : undefined}>About</a>
+        <a href="/case-study-xr-readiness" className={currentPage === 'resources' ? 'current' : undefined}>Resources</a>
       </nav>
       <div className="header-actions">
         <a href="mailto:hello@mxr.ai" className="btn btn-primary btn-small">Contact us</a>
